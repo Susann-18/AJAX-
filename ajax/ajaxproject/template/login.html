@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">User name</label>
+          <input type="text" id="username" aria-describedby="emailHelp" name="username">
+        </div>
+        <br>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password">
+        </div>
+        
+        <button type="button" id="btn1" class="btn btn-primary">Submit</button>
+    </form>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        // AJAX
+        $('#btn1').click(() => {
+            var username = $('#username').val();
+            var password = $('#password').val();
+            var data={
+                'csrfmiddlewaretoken':'{{csrf_token}}' ,
+                'username':username,
+                'password':password ,                    
+            }
+            if(username == '' )
+            {
+            alert("Enter valid username")
+            return;
+        }else if(password =='')
+        {
+            alert('Enter password')
+        }else{
+            $.ajax({
+                url:'/',
+                method:'post',
+                data:data,
+                dataType:'json',
+                success:function(data){
+                    if(data.success){
+                        alert('user logged ')
+                        window.location.replace('/')
+                    }else
+                    {
+                        alert('user is not logged')
+                    }
+                }
+                
+            })
+
+        }
+            // Add your AJAX code here
+        });
+    </script>
+</body>
+</html>
